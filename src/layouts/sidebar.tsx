@@ -63,7 +63,7 @@ const Sidebar = () => {
                 className={`${
                   sidebarOpen ? "mx-8 h-16" : "mx-4 h-12"
                 } flex items-center`}
-                onClick={() => handleSidebar("/report")}
+                onClick={() => handleSidebar("/order")}
               >
                 <TableCellsIcon className="h-6 w-6 " />
                 {sidebarOpen && <p className="ml-4 w-24">Data Pemesanan</p>}
