@@ -7,7 +7,7 @@ import { OrderProps } from "../../types/stuff";
 import Swal from "sweetalert2";
 
 const ListOrder = () => {
-  const [stocks, setStocks] = useState<OrderProps[]>([]);
+  const [orders, setOrders] = useState<OrderProps[]>([]);
 
   const baseUrl = () => {
     return getBaseUrl();
@@ -18,7 +18,7 @@ const ListOrder = () => {
       .get(`${baseUrl()}/order/public/package`)
       .then((res) => {
         console.log(res.data);
-        setStocks(res.data.data);
+        setOrders(res.data.data);
       })
       .catch((err) => {
         console.log(err);
@@ -107,15 +107,15 @@ const ListOrder = () => {
   return (
     <>
       <BaseLayout>
-        <h1 className="text-3xl font-bold mx-6 pt-4">Barang Masuk</h1>
+        <h1 className="text-3xl font-bold mx-6 pt-4">Data Pemesanan</h1>
         <div className="flex items-center bg-gray-300 px-6 py-2">
           <HomeIcon className="w-5 h-5" />
-          <p className="ml-2 font-semibold">Barang Masuk</p>
+          <p className="ml-2 font-semibold">Data Pemesanan</p>
         </div>
         <div className="px-6">
           <div className="mt-4 bg-gray-200 px-8 py-8 rounded-md shadow-md">
             <h3 className="text-3xl font-semibold text-gray-500">
-              Barang Masuk
+              Data Pemesanan
             </h3>
             <div className="flex justify-between mt-4">
               <div className="flex space-x-4 text-base font-semibold text-white">
@@ -151,12 +151,12 @@ const ListOrder = () => {
                 </tr>
               </thead>
               <tbody className="text-center text-gray-700">
-                {stocks.length === 0 ? (
+                {orders.length === 0 ? (
                   <tr>
                     <td colSpan={7}>Data tidak ditemukan</td>
                   </tr>
                 ) : (
-                  stocks.map((stock) => (
+                  orders.map((stock) => (
                     <tr key={stock.id}>
                       <td className="border-2 border-gray-300 p-2">
                         {stock.order_id}
