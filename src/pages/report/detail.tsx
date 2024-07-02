@@ -4,7 +4,7 @@ import { getBaseUrl } from "@/helpers/api";
 import axios from "axios";
 import { OutProps, ResOpname, ReturProps, StuffProps } from "@/types/stuff";
 
-const DetailReportOpname = () => {
+const DetailReport = () => {
   const startDate = window.location.href.split("/")[4];
   const endDate = window.location.href.split("/")[5];
 
@@ -117,4 +117,4 @@ const DetailReportOpname = () => {
   );
 };
 
-export default DetailReportOpname;
+export default DetailReport;

@@ -3,53 +3,69 @@ import BaseLayout from "../../layouts/base";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { getBaseUrl } from "../../helpers/api";
-import { StuffProps } from "../../types/stuff";
 import Swal from "sweetalert2";
+import { OrderProps } from "@/types/stuff";
+import { Input } from "@/shadcn/components/ui/input";
 
-const UpdateIncome = () => {
+const UpdateOrder = () => {
   const dateNow = new Date().toLocaleDateString("id-ID", {
     year: "numeric",
     month: "numeric",
     day: "numeric",
   });
+  const idParam = window.location.pathname.split("/")[2];
 
-  const [stuff, setStuff] = useState<StuffProps>({
+  const [formState, setFormState] = useState({
     id: 0,
-    id_stuff: 0,
+    order_id: "",
     name: "",
     type: "",
-    quantity: 0,
+    phone: "",
+    total_day: 0,
+    total_people: 0,
+    total_price: 0,
     price: 0,
-    unit: "",
   });
 
-  const baseUrl = () => {
-    return getBaseUrl();
+  const initialFormState = (order: OrderProps) => {
+    setFormState({
+      id: parseInt(idParam),
+      order_id: order.order_id,
+      name: order.name,
+      type: order.type,
+      phone: order.phone,
+      price: order.price,
+      total_day: order.total_day,
+      total_people: order.total_people,
+      total_price: order.total_price,
+    });
   };
 
-  const getIdStuff = () => {
-    const idStuff = stuff.id;
-    const withPrefixZero = (num: number) => {
-      return num.toString().padStart(4, "0");
-    };
-    const finalNumber = `IN-${withPrefixZero(idStuff)}`;
-    return finalNumber;
-  };
-
-  const getIncome = (idParam: string) => {
+  const getOrder = (idParam: string) => {
     axios
-      .get(`${baseUrl()}/stuff/in/${idParam}`)
-      .then(async (res) => {
-        setStuff(res.data.data);
+      .get(`${getBaseUrl()}/order/public/package/${idParam}`)
+      .then((res) => {
+        const resData: OrderProps = res.data.data;
+        initialFormState(resData);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  const submitIncome = () => {
+  const updateTotal = (val: number, type: string) => {
+    let total = 0;
+    if (type === "people") total = val * formState.total_day * formState.price;
+    else if (type === "day")
+      total = val * formState.total_people * formState.price;
+    else if (type === "price")
+      total = val * formState.total_day * formState.total_people;
+    setFormState({ ...formState, total_price: total });
+  };
+
+  const handleTapSubmit = () => {
     axios
-      .put(`${baseUrl()}/stuff/in/${stuff.id}`, stuff)
+      .put(`${getBaseUrl()}/order/public/package/${idParam}`, formState)
       .then(async (res) => {
         console.log(res);
         Swal.fire({
@@ -58,7 +74,7 @@ const UpdateIncome = () => {
           icon: "success",
           confirmButtonText: "Ok",
         });
-        window.location.href = "/in";
+        window.location.href = "/order";
       })
       .catch((err) => {
         Swal.fire({
@@ -72,8 +88,7 @@ const UpdateIncome = () => {
   };
 
   useEffect(() => {
-    const idParam = window.location.pathname.split("/")[2];
-    getIncome(idParam);
+    getOrder(idParam);
   }, []);
 
   return (
@@ -95,89 +110,103 @@ const UpdateIncome = () => {
               <h6 className="font-semibold text-lg py-1">{dateNow}</h6>
             </div>
             <div className="flex space-x-4 mt-4">
-              <div>
-                <label>ID Barang</label>
-                <input
-                  value={getIdStuff()}
-                  className="p-2 border-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full bg-gray-100"
-                  disabled
+              <div className="w-full">
+                <label>ID Pesanan</label>
+                <Input
+                  defaultValue={formState.order_id}
+                  onChange={(e) =>
+                    setFormState({ ...formState, order_id: e.target.value })
+                  }
                 />
               </div>
-              <div>
-                <label>Nama Barang</label>
-                <input
-                  className="p-2 border-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
-                  value={stuff.name}
-                  onChange={(e) => {
-                    setStuff({ ...stuff, name: e.target.value });
-                  }}
+              <div className="w-full">
+                <label>Nama Pesanan</label>
+                <Input
+                  defaultValue={formState.name}
+                  onChange={(e) =>
+                    setFormState({ ...formState, name: e.target.value })
+                  }
                 />
               </div>
-              <div>
-                <label>Jenis Barang</label>
-                <input
-                  className="p-2 border-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
-                  value={stuff.type}
-                  onChange={(e) => {
-                    setStuff({ ...stuff, type: e.target.value });
-                  }}
+              <div className="w-full">
+                <label>Jenis Pesanan</label>
+                <select
+                  defaultValue={formState.type}
+                  onChange={(e) =>
+                    setFormState({ ...formState, type: e.target.value })
+                  }
+                  className="p-2 border-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full bg-slate-50"
+                >
+                  <option value="pembelian">Pembelian</option>
+                  <option value="penjualan">Penjualan</option>
+                  <option value="Pesanan">Pesanan</option>
+                </select>
+              </div>
+              <div className="w-full">
+                <label>Telepon</label>
+                <Input
+                  defaultValue={formState.phone}
+                  onChange={(e) =>
+                    setFormState({ ...formState, phone: e.target.value })
+                  }
                 />
               </div>
             </div>
             <div className="flex space-x-4 mt-4">
-              <div>
-                <label>Jumlah Barang</label>
-                <input
-                  className="p-2 border-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full bg-gray-100"
-                  value={stuff.quantity}
-                  disabled
+              <div className="w-full">
+                <label>Jumlah Orang</label>
+                <Input
+                  type="number"
+                  onChange={(e) => {
+                    setFormState({
+                      ...formState,
+                      total_people: parseInt(e.target.value),
+                    });
+                    updateTotal(parseInt(e.target.value), "people");
+                  }}
                 />
               </div>
-              <div>
-                <label>Harga Sub Total</label>
-                <input
-                  className="p-2 border-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full bg-gray-100"
-                  disabled
-                  value={(stuff.price * stuff.quantity).toLocaleString(
-                    "id-ID",
-                    {
-                      style: "currency",
-                      currency: "IDR",
-                    }
-                  )}
+              <div className="w-full flex flex-col">
+                <label>Hari</label>
+                <Input
+                  type="number"
+                  onChange={(e) => {
+                    setFormState({
+                      ...formState,
+                      total_day: parseInt(e.target.value),
+                    });
+                    updateTotal(parseInt(e.target.value), "day");
+                  }}
                 />
               </div>
-              <div>
+              <div className="w-full">
                 <label>Harga</label>
-                <input
-                  className="p-2 border-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full bg-gray-100"
-                  disabled
-                  value={stuff.price.toLocaleString("id-ID", {
+                <Input
+                  type="number"
+                  onChange={(e) => {
+                    setFormState({
+                      ...formState,
+                      price: parseInt(e.target.value),
+                    });
+                    updateTotal(parseInt(e.target.value), "price");
+                  }}
+                />
+              </div>
+              <div className="w-full">
+                <label>Harga Sub Total</label>
+                <Input
+                  value={formState.total_price.toLocaleString("id-ID", {
                     style: "currency",
                     currency: "IDR",
                   })}
+                  disabled
                 />
               </div>
-            </div>
-            <div className="flex-col flex mt-4">
-              <label>Satuan</label>
-              <select
-                className="p-2 border-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-max bg-white"
-                defaultValue={stuff.unit}
-                onChange={(e) => {
-                  setStuff({ ...stuff, unit: e.target.value });
-                }}
-              >
-                <option value="pcs">Pcs</option>
-                <option value="kg">Kg</option>
-                <option value="liter">Liter</option>
-                <option value="m">Meter</option>
-              </select>
             </div>
             <div className="w-full justify-end flex mt-4">
               <button
                 className="bg-blue-500 text-white px-3 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                onClick={submitIncome}
+                onClick={handleTapSubmit}
               >
                 Simpan
               </button>
@@ -189,4 +218,4 @@ const UpdateIncome = () => {
   );
 };
 
-export default UpdateIncome;
+export default UpdateOrder;

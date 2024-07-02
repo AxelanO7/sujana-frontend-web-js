@@ -8,20 +8,20 @@ import Dashboard from "./pages/dashboard";
 
 // order
 import Order from "./pages/order/list";
-import Ordering from "./pages/order/create";
-import UpdateIncome from "./pages/order/update";
+import Ordering from "./pages/order/ordering";
+import UpdateOrder from "./pages/order/update";
 import DetailIncome from "./pages/order/detail";
 import ReportIncome from "./pages/order/report";
 import DetailReportIncome from "./pages/order/detail_report";
 
 // opname
-import Opname from "./pages/opname/opname";
-import DetailReportOpname from "./pages/opname/detail_report";
+import ListReport from "./pages/report/list";
+import DetailReport from "./pages/report/detail";
 
 // employee
-import Employee from "./pages/employee/employee";
-import CreateEmployee from "./pages/employee/create";
-import UpdateEmployee from "./pages/employee/update";
+import ListUser from "./pages/user/list";
+import CreateUser from "./pages/user/create";
+import UpdateUser from "./pages/user/update";
 
 function App() {
   return (
@@ -37,20 +37,17 @@ function App() {
           {/* income */}
           <Route path="/order" element={<Order />} />
           <Route path="/ordering" element={<Ordering />} />
-          <Route path="/in/:id" element={<UpdateIncome />} />
+          <Route path="/order/:id" element={<UpdateOrder />} />
           <Route path="/in/detail/:id" element={<DetailIncome />} />
           <Route path="/in/report" element={<ReportIncome />} />
           <Route path="/in/report/detail" element={<DetailReportIncome />} />
           {/* opname */}
-          <Route path="/opname" element={<Opname />} />
-          <Route
-            path="/detail-opname/:start/:end"
-            element={<DetailReportOpname />}
-          />
+          <Route path="/opname" element={<ListReport />} />
+          <Route path="/detail-opname/:start/:end" element={<DetailReport />} />
           {/* employee */}
-          <Route path="/employee" element={<Employee />} />
-          <Route path="/employee/add" element={<CreateEmployee />} />
-          <Route path="/employee/:id" element={<UpdateEmployee />} />
+          <Route path="/employee" element={<ListUser />} />
+          <Route path="/employee/add" element={<CreateUser />} />
+          <Route path="/employee/:id" element={<UpdateUser />} />
         </Routes>
       </BrowserRouter>
     </RecoilRoot>

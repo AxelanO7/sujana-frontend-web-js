@@ -22,7 +22,7 @@ const Ordering = () => {
   const [day, setDay] = useState(0);
   const [total, setTotal] = useState(0);
 
-  const submitIn = () => {
+  const handleTapSubmit = () => {
     const payload = {
       order_id: orderId,
       name: name,
@@ -33,8 +33,6 @@ const Ordering = () => {
       price: price,
       total_price: total,
     };
-
-    console.log(payload);
 
     axios
       .post(`${getBaseUrl()}/order/public/package`, payload)
@@ -162,7 +160,7 @@ const Ordering = () => {
             <div className="w-full justify-end flex mt-4">
               <button
                 className="bg-blue-500 text-white px-3 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                onClick={submitIn}
+                onClick={handleTapSubmit}
               >
                 Simpan
               </button>

@@ -5,15 +5,15 @@ import { getBaseUrl } from "@/helpers/api";
 import { useEffect, useState } from "react";
 import { EmployeeProps } from "@/types/user";
 
-const Employee = () => {
-  const [employees, setEmployees] = useState<EmployeeProps[]>([]);
+const ListUser = () => {
+  const [users, setUsers] = useState<EmployeeProps[]>([]);
 
   const getEmployees = () => {
     axios
       .get(`${getBaseUrl()}/employee/private/account`)
       .then((res) => {
         const data = res.data.data;
-        setEmployees(data);
+        setUsers(data);
       })
       .catch((err) => {
         console.error(err);
@@ -91,7 +91,7 @@ const Employee = () => {
                 </tr>
               </thead>
               <tbody className="text-center text-gray-700">
-                {employees.map((employee, index) => (
+                {users.map((employee, index) => (
                   <tr key={employee.id}>
                     <td className="border-2 border-gray-300 p-2">
                       {index + 1}
@@ -134,4 +134,4 @@ const Employee = () => {
   );
 };
 
-export default Employee;
+export default ListUser;

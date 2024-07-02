@@ -5,17 +5,14 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { OrderProps } from "../../types/stuff";
 import Swal from "sweetalert2";
+import { Input } from "@/shadcn/components/ui/input";
+import { Button } from "@/shadcn/components/ui/button";
 
 const ListOrder = () => {
   const [orders, setOrders] = useState<OrderProps[]>([]);
-
-  const baseUrl = () => {
-    return getBaseUrl();
-  };
-
   const getOrders = () => {
     axios
-      .get(`${baseUrl()}/order/public/package`)
+      .get(`${getBaseUrl()}/order/public/package`)
       .then((res) => {
         console.log(res.data);
         setOrders(res.data.data);
@@ -25,13 +22,13 @@ const ListOrder = () => {
       });
   };
 
-  const addIn = () => {
-    window.location.href = "/in/add";
+  const handleTapAdd = () => {
+    window.location.href = "/ordering";
   };
 
-  // const editIn = (id: number) => {
-  //   window.location.href = `/in/${id}`;
-  // };
+  const handleTapEdit = (id: number) => {
+    window.location.href = `/order/${id}`;
+  };
 
   // const handleTapDetail = async (id: number) => {
   //   await axios
@@ -71,34 +68,34 @@ const ListOrder = () => {
   //     });
   // };
 
-  // const handleDeleteIn = (id: number) => {
-  //   Swal.fire({
-  //     title: "Apakah Anda yakin?",
-  //     text: "Data yang dihapus tidak dapat dikembalikan!",
-  //     icon: "warning",
-  //     showCancelButton: true,
-  //     confirmButtonColor: "#3085d6",
-  //     cancelButtonColor: "#d33",
-  //     confirmButtonText: "Ya, hapus!",
-  //   }).then((result) => {
-  //     if (result.isConfirmed) {
-  //       deleteStuff(id);
-  //     }
-  //   });
-  // };
+  const handleTapDelete = (id: number) => {
+    Swal.fire({
+      title: "Apakah Anda yakin?",
+      text: "Data yang dihapus tidak dapat dikembalikan!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Ya, hapus!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteOrder(id);
+      }
+    });
+  };
 
-  // const deleteStuff = (id: number) => {
-  //   axios
-  //     .delete(`${baseUrl()}/stuff/in/${id}`)
-  //     .then((res) => {
-  //       Swal.fire("Berhasil!", "Data berhasil dihapus.", "success");
-  //       getIns();
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //       Swal.fire("Gagal!", "Data gagal dihapus.", "error");
-  //     });
-  // };
+  const deleteOrder = (id: number) => {
+    axios
+      .delete(`${getBaseUrl()}/order/public/package/${id}`)
+      .then(() => {
+        Swal.fire("Berhasil!", "Data berhasil dihapus.", "success");
+        getOrders();
+      })
+      .catch((err) => {
+        console.log(err);
+        Swal.fire("Gagal!", "Data gagal dihapus.", "error");
+      });
+  };
 
   useEffect(() => {
     getOrders();
@@ -119,34 +116,31 @@ const ListOrder = () => {
             </h3>
             <div className="flex justify-between mt-4">
               <div className="flex space-x-4 text-base font-semibold text-white">
-                <button
+                <Button
                   className="bg-c-dark-blue rounded-md px-3"
-                  onClick={addIn}
+                  onClick={handleTapAdd}
                 >
                   Tambah Barang
-                </button>
-                <button className="bg-c-yellow rounded-md px-3">
+                </Button>
+                <Button className="bg-c-yellow rounded-md px-3">
                   Cetak Laporan
-                </button>
+                </Button>
               </div>
               <div className="flex items-center">
-                <input
-                  type="search"
-                  className="p-2 border-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Cari barang"
-                />
-                <MagnifyingGlassIcon className="w-10 h-10 text-white bg-c-dark-blue rounded-md p-2 ml-2 cursor-pointer" />
+                <Input type="text" placeholder="Cari..." />
+                <MagnifyingGlassIcon className="w-10 h-9 text-white bg-c-dark-blue rounded-md p-2 ml-2 cursor-pointer" />
               </div>
             </div>
             <table className="w-full mt-4">
               <thead>
                 <tr>
-                  <th className="border-2 border-gray-300 p-2">ID Barang</th>
-                  <th className="border-2 border-gray-300 p-2">Tanggal</th>
+                  <th className="border-2 border-gray-300 p-2">ID</th>
                   <th className="border-2 border-gray-300 p-2">Nama</th>
                   <th className="border-2 border-gray-300 p-2">Jenis</th>
-                  <th className="border-2 border-gray-300 p-2">Jumlah</th>
-                  <th className="border-2 border-gray-300 p-2">Satuan</th>
+                  <th className="border-2 border-gray-300 p-2">Jumlah Orang</th>
+                  <th className="border-2 border-gray-300 p-2">Jumlah Hari</th>
+                  <th className="border-2 border-gray-300 p-2">Harga</th>
+                  <th className="border-2 border-gray-300 p-2">Total Harga</th>
                   <th className="border-2 border-gray-300 p-2">Aksi</th>
                 </tr>
               </thead>
@@ -162,23 +156,16 @@ const ListOrder = () => {
                         {stock.order_id}
                       </td>
                       <td className="border-2 border-gray-300 p-2">
-                        {new Date(
-                          stock.created_at?.toString() || new Date()
-                        ).toLocaleDateString("id-ID", {
-                          weekday: "long",
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        })}
-                      </td>
-                      <td className="border-2 border-gray-300 p-2">
                         {stock.name}
                       </td>
                       <td className="border-2 border-gray-300 p-2">
                         {stock.type}
                       </td>
                       <td className="border-2 border-gray-300 p-2">
-                        {stock.type}
+                        {stock.total_people}
+                      </td>
+                      <td className="border-2 border-gray-300 p-2">
+                        {stock.total_day}
                       </td>
                       <td className="border-2 border-gray-300 p-2">
                         {stock.price.toLocaleString("id-ID", {
@@ -186,19 +173,25 @@ const ListOrder = () => {
                           currency: "IDR",
                         })}
                       </td>
+                      <td className="border-2 border-gray-300 p-2">
+                        {stock.total_price.toLocaleString("id-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                        })}
+                      </td>
                       <td className="border-2 border-gray-300 flex space-x-2 text-white p-2 font-semibold">
-                        <button
+                        <Button
                           className="bg-blue-500 rounded-md w-full p-1"
-                          // onClick={() => editIn(stock.id)}
+                          onClick={() => handleTapEdit(stock.id!)}
                         >
                           Edit
-                        </button>
-                        <button
-                          className="bg-green-500 rounded-md w-full p-1"
-                          // onClick={() => handleTapDetail(stock.id)}
+                        </Button>
+                        <Button
+                          className="bg-red-500 rounded-md w-full p-1"
+                          onClick={() => handleTapDelete(stock.id!)}
                         >
-                          Detail
-                        </button>
+                          Hapus
+                        </Button>
                       </td>
                     </tr>
                   ))

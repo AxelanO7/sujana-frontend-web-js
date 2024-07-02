@@ -4,7 +4,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { getBaseUrl } from "@/helpers/api";
 
-const CreateEmployee = () => {
+const CreateUser = () => {
   const dateNow = new Date().toLocaleDateString("id-ID", {
     year: "numeric",
     month: "numeric",
@@ -122,4 +122,4 @@ const CreateEmployee = () => {
   );
 };
 
-export default CreateEmployee;
+export default CreateUser;

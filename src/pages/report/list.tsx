@@ -6,7 +6,7 @@ import { useState, useEffect } from "react";
 import { OpnameProps } from "@/types/stuff";
 import Swal from "sweetalert2";
 
-const Opname = () => {
+const ListReport = () => {
   const [formState, setFormState] = useState({
     id_opname: "",
     name: "",
@@ -165,4 +165,4 @@ const Opname = () => {
   );
 };
 
-export default Opname;
+export default ListReport;

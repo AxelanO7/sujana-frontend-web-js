@@ -5,7 +5,7 @@ import { getBaseUrl } from "@/helpers/api";
 import { EmployeeProps } from "@/types/user";
 import axios from "axios";
 
-const UpdateEmployee = () => {
+const UpdateUser = () => {
   const [employee, setEmployee] = useState<EmployeeProps>({
     id: "",
     name: "",
@@ -131,4 +131,4 @@ const UpdateEmployee = () => {
   );
 };
 
-export default UpdateEmployee;
+export default UpdateUser;
