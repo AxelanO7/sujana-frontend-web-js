@@ -3,7 +3,7 @@ import BaseLayout from "../../layouts/base";
 import { getBaseUrl } from "@/helpers/api";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { OpnameProps } from "@/types/stuff";
+import { ReportProps } from "@/types/stuff";
 import Swal from "sweetalert2";
 
 const ListReport = () => {
@@ -14,31 +14,31 @@ const ListReport = () => {
     end_date: "",
   });
 
-  const getOpnames = () => {
+  const getReports = () => {
     axios
-      .get(`${getBaseUrl()}/opname/private/stuff`)
+      .get(`${getBaseUrl()}/report/private/package`)
       .then((res) => {
         console.log(res.data);
-        setOpnames(res.data.data);
+        setReport(res.data.data);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  const handleDetailOpname = (val: OpnameProps) => {
-    window.location.href = `/detail-opname/${val.start_date}/${val.end_date}`;
+  const handleDetailReport = (val: ReportProps) => {
+    window.location.href = `/detail-report/${val.start_date}/${val.end_date}`;
   };
 
-  const handleAddOpname = () => {
+  const handleAddReport = () => {
     const payload = {
-      id_opname: formState.id_opname,
+      report_id: formState.id_opname,
       name: formState.name,
       start_date: formState.start_date,
       end_date: formState.end_date,
     };
     axios
-      .post(`${getBaseUrl()}/opname/private/stuff`, payload)
+      .post(`${getBaseUrl()}/report/private/package`, payload)
       .then((res) => {
         console.log(res.data);
         Swal.fire({
@@ -46,16 +46,16 @@ const ListReport = () => {
           title: "Berhasil",
           text: "Data berhasil disimpan",
         });
-        getOpnames();
+        getReports();
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  const [opnames, setOpnames] = useState<OpnameProps[]>([]);
+  const [reports, setReport] = useState<ReportProps[]>([]);
   useEffect(() => {
-    getOpnames();
+    getReports();
   }, []);
 
   return (
@@ -116,7 +116,7 @@ const ListReport = () => {
             <div className="flex justify-end mt-4">
               <button
                 className="bg-c-dark-blue rounded-md px-4 py-1 text-white"
-                onClick={handleAddOpname}
+                onClick={handleAddReport}
               >
                 Simpan
               </button>
@@ -134,7 +134,14 @@ const ListReport = () => {
                 </tr>
               </thead>
               <tbody className="text-center text-gray-700">
-                {opnames.map((opname) => (
+                {reports.length === 0 && (
+                  <tr>
+                    <td colSpan={5} className="border-2 border-gray-300 p-2">
+                      Data tidak ditemukan
+                    </td>
+                  </tr>
+                )}
+                {reports.map((opname) => (
                   <tr key={opname.id}>
                     <td className="border-2 border-gray-300 p-2">
                       {opname.id}
@@ -150,7 +157,7 @@ const ListReport = () => {
                     </td>
                     <td
                       className="border-2 border-gray-300"
-                      onClick={() => handleDetailOpname(opname)}
+                      onClick={() => handleDetailReport(opname)}
                     >
                       <DocumentTextIcon className="rounded-md  w-6 h-6 text-blue-500 mx-auto cursor-pointer" />
                     </td>

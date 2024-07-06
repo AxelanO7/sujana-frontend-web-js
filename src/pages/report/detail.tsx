@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import BaseLayout from "../../layouts/base";
 import { getBaseUrl } from "@/helpers/api";
 import axios from "axios";
-import { OutProps, ResOpname, ReturProps, StuffProps } from "@/types/stuff";
+import { OrderProps } from "@/types/stuff";
 
 const DetailReport = () => {
   const startDate = window.location.href.split("/")[4];
   const endDate = window.location.href.split("/")[5];
 
-  const [stuffs, setStuffs] = useState<StuffProps[]>([]);
+  const [orders, setOrders] = useState<OrderProps[]>([]);
 
   const getMonth = () => {
     const startDateMonth = new Date(startDate).getMonth();
@@ -34,47 +34,48 @@ const DetailReport = () => {
     }
   };
 
-  const getOpnameByDate = async () => {
+  const getOrderByDate = async () => {
     const startDate = window.location.href.split("/")[4];
     const endDate = window.location.href.split("/")[5];
     axios
-      .post(`${getBaseUrl()}/opname/private/date`, {
+      .post(`${getBaseUrl()}/report/private/date`, {
         start_date: startDate,
         end_date: endDate,
       })
       .then((res) => {
         console.log(res.data);
-        countProduct(res.data.data);
+        setOrders(res.data.data);
+        // countProduct(res.data.data);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  const countProduct = async (resp: ResOpname) => {
-    const inc: StuffProps[] = resp.in || [];
-    const out: OutProps[] = resp.out || [];
-    const retur: ReturProps[] = resp.rtr || [];
+  // const countProduct = async (resp: ResReport) => {
+  // const inc: StuffProps[] = resp.in || [];
+  // const out: OutProps[] = resp.out || [];
+  // const retur: ReturProps[] = resp.rtr || [];
 
-    for (let i = 0; i < inc.length; i++) {
-      let total = inc[i].quantity;
-      for (let j = 0; j < out.length; j++) {
-        if (inc[i].id_stuff === out[j].order.stock.id_stuff) {
-          total -= out[j].order.total_order;
-        }
-      }
-      for (let k = 0; k < retur.length; k++) {
-        if (inc[i].id_stuff === retur[k].stock.id_stuff) {
-          total += retur[k].total_return;
-        }
-      }
-      inc[i].quantity = total;
-    }
-    setStuffs(inc);
-  };
+  // for (let i = 0; i < inc.length; i++) {
+  //   let total = inc[i].quantity;
+  //   for (let j = 0; j < out.length; j++) {
+  //     if (inc[i].id_stuff === out[j].order.stock.id_stuff) {
+  //       total -= out[j].order.total_order;
+  //     }
+  //   }
+  //   for (let k = 0; k < retur.length; k++) {
+  //     if (inc[i].id_stuff === retur[k].stock.id_stuff) {
+  //       total += retur[k].total_return;
+  //     }
+  //   }
+  //   inc[i].quantity = total;
+  // }
+  //   setOrders(inc);
+  // };
 
   const fetchData = async () => {
-    getOpnameByDate();
+    getOrderByDate();
     getMonth();
   };
 
@@ -94,18 +95,23 @@ const DetailReport = () => {
             {startDate} - {endDate}
           </h1>
           <h6 className="font-semibold text-lg py-1">TOKO ASSYARIF</h6>
-          {stuffs.length === 0 ? (
+          {orders.length === 0 ? (
             <h1 className="text-2xl font-semibold mt-8">Tidak ada data</h1>
           ) : (
             <table className="m-8 border border-gray-400">
-              {stuffs.map((product, index) => (
+              {orders.map((order, index) => (
                 <tr
                   key={index}
                   className={index % 2 === 0 ? "bg-gray-200" : "bg-gray-100"}
                 >
                   <td className="p-2">
-                    Nama Barang: {product.name} <br />
-                    Jumlah Barang: {product.quantity} {product.unit} <br />
+                    Nama: {order.name} <br />
+                    Tipe: {order.type} <br />
+                    Total Orang: {order.total_people} <br />
+                    Total Hari: {order.total_day} <br />
+                    Harga: {order.price} <br />
+                    Total Harga: {order.total_price} <br />
+                    Telepon: {order.phone} <br />
                   </td>
                 </tr>
               ))}
