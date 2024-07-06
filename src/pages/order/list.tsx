@@ -30,44 +30,6 @@ const ListOrder = () => {
     window.location.href = `/order/${id}`;
   };
 
-  // const handleTapDetail = async (id: number) => {
-  //   await axios
-  //     .get(`${baseUrl()}/stuff/in/${id}`)
-  //     .then((res) => {
-  //       console.log(res.data);
-  //       const data: StuffProps = res.data.data;
-  //       Swal.fire({
-  //         title: "Detail Barang",
-  //         html: `
-  //           <div class="text-left">
-  //             <p><span class="font-semibold">ID Barang:</span> ${
-  //               data.id_stuff
-  //             }</p>
-  //             <p><span class="font-semibold">Nama:</span> ${data.name}</p>
-  //             <p><span class="font-semibold">Jenis:</span> ${data.type}</p>
-  //             <p><span class="font-semibold">Jumlah:</span> ${data.quantity}</p>
-  //             <p><span class="font-semibold">Satuan:</span> ${data.unit}</p>
-  //             <p><span class="font-semibold">Harga:</span> ${data.price.toLocaleString(
-  //               "id-ID",
-  //               {
-  //                 style: "currency",
-  //                 currency: "IDR",
-  //               }
-  //             )}</p>
-  //           </div>
-  //         `,
-  //         confirmButtonColor: "#3085d6",
-  //       }).then((result) => {
-  //         if (result.isConfirmed) {
-  //           console.log("OK");
-  //         }
-  //       });
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
-
   const handleTapDelete = (id: number) => {
     Swal.fire({
       title: "Apakah Anda yakin?",

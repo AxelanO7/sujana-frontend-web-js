@@ -72,7 +72,7 @@ const ListUser = () => {
                 <input
                   type="search"
                   className="p-2 border-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Cari barang"
+                  placeholder="Cari User"
                 />
                 <MagnifyingGlassIcon className="w-10 h-10 text-white bg-c-dark-blue rounded-md p-2 ml-2 cursor-pointer" />
               </div>
@@ -89,6 +89,13 @@ const ListUser = () => {
                 </tr>
               </thead>
               <tbody className="text-center text-gray-700">
+                {users.length === 0 && (
+                  <tr>
+                    <td colSpan={5} className="border-2 border-gray-300 p-2">
+                      Data tidak ditemukan
+                    </td>
+                  </tr>
+                )}
                 {users.map((employee, index) => (
                   <tr key={employee.id}>
                     <td className="border-2 border-gray-300 p-2">
