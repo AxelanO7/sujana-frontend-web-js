@@ -10,15 +10,15 @@ import Dashboard from "./pages/dashboard";
 import Order from "./pages/order/list";
 import Ordering from "./pages/order/ordering";
 import UpdateOrder from "./pages/order/update";
-import DetailIncome from "./pages/order/detail";
-import ReportIncome from "./pages/order/report";
-import DetailReportIncome from "./pages/order/detail_report";
+// import DetailIncome from "./pages/order/detail";
+// import ReportIncome from "./pages/order/report";
+// import DetailReportIncome from "./pages/order/detail_report";
 
-// opname
+// report
 import ListReport from "./pages/report/list";
 import DetailReport from "./pages/report/detail";
 
-// employee
+// user
 import ListUser from "./pages/user/list";
 import CreateUser from "./pages/user/create";
 import UpdateUser from "./pages/user/update";
@@ -34,17 +34,17 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          {/* income */}
+          {/* order */}
           <Route path="/order" element={<Order />} />
           <Route path="/ordering" element={<Ordering />} />
           <Route path="/order/:id" element={<UpdateOrder />} />
-          <Route path="/order/detail/:id" element={<DetailIncome />} />
+          {/* <Route path="/order/detail/:id" element={<DetailIncome />} />
           <Route path="/order/report" element={<ReportIncome />} />
-          <Route path="/order/report/detail" element={<DetailReportIncome />} />
+          <Route path="/order/report/detail" element={<DetailReportIncome />} /> */}
           {/* opname */}
-          <Route path="/opname" element={<ListReport />} />
-          <Route path="/detail-opname/:start/:end" element={<DetailReport />} />
-          {/* employee */}
+          <Route path="/report" element={<ListReport />} />
+          <Route path="/detail-report/:start/:end" element={<DetailReport />} />
+          {/* user */}
           <Route path="/user" element={<ListUser />} />
           <Route path="/user/add" element={<CreateUser />} />
           <Route path="/user/:id" element={<UpdateUser />} />
