@@ -88,7 +88,7 @@ const Sidebar = () => {
                 onClick={() => handleSidebar("/user")}
               >
                 <UserIcon className="h-6 w-6" />
-                {sidebarOpen && <p className="ml-4">Akun</p>}
+                {sidebarOpen && <p className="ml-4">User</p>}
               </div>
             </div>
           </div>
