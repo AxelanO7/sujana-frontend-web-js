@@ -63,7 +63,35 @@ const UpdateOrder = () => {
     setFormState({ ...formState, total_price: total });
   };
 
+  const validateForm = () => {
+    if (
+      formState.order_id === "" ||
+      formState.name === "" ||
+      formState.type === "" ||
+      formState.phone === "" ||
+      formState.total_people === 0 ||
+      formState.price === 0 ||
+      formState.total_day === 0
+    ) {
+      if (formState.type === "") {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Jenis pesanan harus diisi",
+        });
+        return false;
+      }
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Semua kolom harus diisi",
+      });
+      return false;
+    }
+    return true;
+  };
   const handleTapSubmit = () => {
+    if (!validateForm()) return;
     axios
       .put(`${getBaseUrl()}/order/public/package/${idParam}`, formState)
       .then(async (res) => {

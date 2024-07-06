@@ -22,7 +22,35 @@ const Ordering = () => {
   const [day, setDay] = useState(0);
   const [total, setTotal] = useState(0);
 
+  const validateForm = () => {
+    if (
+      orderId === "" ||
+      name === "" ||
+      type === "" ||
+      phone === "" ||
+      people === 0 ||
+      price === 0 ||
+      day === 0
+    ) {
+      if (type === "") {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: "Jenis pesanan harus diisi",
+        });
+        return false;
+      }
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Semua kolom harus diisi",
+      });
+      return false;
+    }
+    return true;
+  };
   const handleTapSubmit = () => {
+    if (!validateForm()) return;
     const payload = {
       order_id: orderId,
       name: name,
@@ -44,8 +72,7 @@ const Ordering = () => {
           title: "Success",
           text: "Data berhasil disimpan",
         });
-        // todo
-        // window.location.href = "/order";
+        window.location.href = "/order";
       })
       .catch((err) => {
         console.log(err);
