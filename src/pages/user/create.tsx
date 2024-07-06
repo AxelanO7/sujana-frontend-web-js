@@ -15,7 +15,7 @@ const CreateUser = () => {
 
   const getUserLast = () => {
     axios
-      .get(`${getBaseUrl()}/employee/private/last`)
+      .get(`${getBaseUrl()}/user/private/last`)
       .then((res) => {
         const resLastNumber = res.data.data;
         // const withPrefixZero = (num: number) => {
