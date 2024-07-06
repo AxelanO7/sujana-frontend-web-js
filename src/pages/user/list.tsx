@@ -10,7 +10,7 @@ const ListUser = () => {
 
   const getEmployees = () => {
     axios
-      .get(`${getBaseUrl()}/employee/private/account`)
+      .get(`${getBaseUrl()}/user/private/account`)
       .then((res) => {
         const data = res.data.data;
         setUsers(data);
@@ -21,11 +21,11 @@ const ListUser = () => {
   };
 
   const handleAddEmployee = () => {
-    window.location.href = "/employee/add";
+    window.location.href = "/user/add";
   };
 
   const handleEditEmployee = (id: number) => {
-    window.location.href = `/employee/${id}`;
+    window.location.href = `/user/${id}`;
   };
 
   const handleDeleteEmployee = (id: number) => {
@@ -34,7 +34,7 @@ const ListUser = () => {
 
   const deleteEmployee = (id: number) => {
     axios
-      .delete(`${getBaseUrl()}/employee/private/account/${id}`)
+      .delete(`${getBaseUrl()}/user/private/account/${id}`)
       .then((res) => {
         console.log(res.data);
         alert("Berhasil menghapus data");
@@ -51,23 +51,21 @@ const ListUser = () => {
   return (
     <>
       <BaseLayout>
-        <h1 className="text-3xl font-bold mx-6 pt-4">Pegawai</h1>
+        <h1 className="text-3xl font-bold mx-6 pt-4">User</h1>
         <div className="flex items-center bg-gray-300 px-6 py-2">
           <HomeIcon className="w-5 h-5" />
-          <p className="ml-2 font-semibold">Tambah Akun</p>
+          <p className="ml-2 font-semibold">Tambah User</p>
         </div>
         <div className="px-6">
           <div className="mt-4 bg-gray-200 px-8 py-8 rounded-md shadow-md">
-            <h3 className="text-3xl font-semibold text-gray-500">
-              Data Pegawai
-            </h3>
+            <h3 className="text-3xl font-semibold text-gray-500">Data User</h3>
             <div className="flex justify-between mt-4">
               <div className="flex space-x-4">
                 <button
                   className="bg-c-dark-blue rounded-md px-3 text-white"
                   onClick={handleAddEmployee}
                 >
-                  Tambah Pegawai
+                  Tambah User
                 </button>
               </div>
               <div className="flex items-center">
