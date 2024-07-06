@@ -17,7 +17,7 @@ const DetailReportIncome = () => {
             Tanggal,
             {startDate} - {endDate}
           </h1>
-          <h6 className="font-semibold text-lg py-1">TOKO ASSYARIF</h6>
+          <h6 className="font-semibold text-lg py-1">SUJANA</h6>
           <table className="m-8 border border-gray-400">
             {detailProduct.map((product, index) => (
               <tr

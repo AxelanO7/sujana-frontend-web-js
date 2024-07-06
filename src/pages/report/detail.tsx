@@ -94,7 +94,7 @@ const DetailReport = () => {
             {"Tanggal, "}
             {startDate} - {endDate}
           </h1>
-          <h6 className="font-semibold text-lg py-1">TOKO ASSYARIF</h6>
+          <h6 className="font-semibold text-lg py-1">SUJANA</h6>
           {orders.length === 0 ? (
             <h1 className="text-2xl font-semibold mt-8">Tidak ada data</h1>
           ) : (
