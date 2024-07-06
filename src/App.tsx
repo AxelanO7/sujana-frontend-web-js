@@ -45,9 +45,9 @@ function App() {
           <Route path="/opname" element={<ListReport />} />
           <Route path="/detail-opname/:start/:end" element={<DetailReport />} />
           {/* employee */}
-          <Route path="/employee" element={<ListUser />} />
-          <Route path="/employee/add" element={<CreateUser />} />
-          <Route path="/employee/:id" element={<UpdateUser />} />
+          <Route path="/user" element={<ListUser />} />
+          <Route path="/user/add" element={<CreateUser />} />
+          <Route path="/user/:id" element={<UpdateUser />} />
         </Routes>
       </BrowserRouter>
     </RecoilRoot>
