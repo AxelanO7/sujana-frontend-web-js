@@ -3,6 +3,7 @@ import BaseLayout from "../../layouts/base";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { getBaseUrl } from "@/helpers/api";
+import Swal from "sweetalert2";
 
 const CreateUser = () => {
   const dateNow = new Date().toLocaleDateString("id-ID", {
@@ -15,7 +16,7 @@ const CreateUser = () => {
 
   const getUserLast = () => {
     axios
-      .get(`${getBaseUrl()}/user/private/last`)
+      .get(`${getBaseUrl()}/user/private/last-number`)
       .then((res) => {
         const resLastNumber = res.data.data;
         // const withPrefixZero = (num: number) => {
@@ -40,19 +41,30 @@ const CreateUser = () => {
       name,
       phone,
       address,
-      id_user: 4,
+      id_account: 1,
     };
 
     axios
-      .post(`${getBaseUrl()}/employee/private/account`, payload)
+      .post(`${getBaseUrl()}/user/private/account`, payload)
       .then((res) => {
         console.log(res.data);
-        alert("Berhasil menambahkan pegawai");
-        window.location.href = "/employee";
+        Swal.fire({
+          title: "Berhasil",
+          text: "Berhasil menambahkan user",
+          icon: "success",
+          confirmButtonText: "OK",
+        }).then(() => {
+          window.location.href = "/user";
+        });
       })
       .catch((err) => {
         console.log(err);
-        alert("Gagal menambahkan pegawai");
+        Swal.fire({
+          title: "Gagal",
+          text: "Gagal menambahkan user",
+          icon: "error",
+          confirmButtonText: "OK",
+        });
       });
   };
 
@@ -63,17 +75,17 @@ const CreateUser = () => {
   return (
     <>
       <BaseLayout>
-        <h1 className="text-3xl font-bold mx-6 pt-4">Pegawai</h1>
+        <h1 className="text-3xl font-bold mx-6 pt-4">User</h1>
         <div className="flex items-center bg-gray-300 px-6 py-2">
           <HomeIcon className="w-5 h-5" />
-          <p className="ml-2 font-semibold">Pegawai</p>
+          <p className="ml-2 font-semibold">User</p>
           <p className="ml-2 font-semibold">{">"}</p>
           <p className="ml-2 font-semibold">Tambah Akun</p>
         </div>
         <div className="px-6">
           <div className="mt-4 bg-gray-200 px-8 py-8 rounded-md shadow-md">
             <div className="flex items-center justify-between">
-              <h3 className="text-3xl font-semibold text-gray-500">Pegawai</h3>
+              <h3 className="text-3xl font-semibold text-gray-500">User</h3>
               <h6 className="font-semibold text-lg py-1">{dateNow}</h6>
             </div>
             <div className="flex space-x-4 mt-4">
@@ -86,7 +98,7 @@ const CreateUser = () => {
                 />
               </div>
               <div>
-                <label>Nama Pegawai</label>
+                <label>Nama User</label>
                 <input
                   className="p-2 border-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 w-full"
                   onChange={(e) => setName(e.target.value)}

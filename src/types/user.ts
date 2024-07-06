@@ -1,24 +1,15 @@
-export interface UserProps {
+export interface AccountProps {
   id: string;
   username: string;
   password: string;
   role: string;
 }
 
-export interface EmployeeProps {
+export interface UserProps {
   id: string;
   name: string;
-  phone: string;
   address: string;
-  id_user: number;
-  user: UserProps;
-}
-
-export interface OutletProps {
-  id: string;
-  name: string;
   phone: string;
-  address: string;
-  id_user: number;
-  user: UserProps;
+  id_account: number;
+  account?: AccountProps;
 }

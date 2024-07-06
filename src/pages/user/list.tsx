@@ -3,10 +3,11 @@ import BaseLayout from "../../layouts/base";
 import axios from "axios";
 import { getBaseUrl } from "@/helpers/api";
 import { useEffect, useState } from "react";
-import { EmployeeProps } from "@/types/user";
+import { UserProps } from "@/types/user";
+import Swal from "sweetalert2";
 
 const ListUser = () => {
-  const [users, setUsers] = useState<EmployeeProps[]>([]);
+  const [users, setUsers] = useState<UserProps[]>([]);
 
   const getEmployees = () => {
     axios
@@ -37,7 +38,14 @@ const ListUser = () => {
       .delete(`${getBaseUrl()}/user/private/account/${id}`)
       .then((res) => {
         console.log(res.data);
-        alert("Berhasil menghapus data");
+        Swal.fire({
+          title: "Berhasil",
+          text: "Berhasil menghapus data",
+          icon: "success",
+          confirmButtonText: "OK",
+        }).then(() => {
+          getEmployees();
+        });
       })
       .catch((err) => {
         console.error(err);
