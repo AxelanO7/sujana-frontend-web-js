@@ -38,9 +38,9 @@ function App() {
           <Route path="/order" element={<Order />} />
           <Route path="/ordering" element={<Ordering />} />
           <Route path="/order/:id" element={<UpdateOrder />} />
-          <Route path="/in/detail/:id" element={<DetailIncome />} />
-          <Route path="/in/report" element={<ReportIncome />} />
-          <Route path="/in/report/detail" element={<DetailReportIncome />} />
+          <Route path="/order/detail/:id" element={<DetailIncome />} />
+          <Route path="/order/report" element={<ReportIncome />} />
+          <Route path="/order/report/detail" element={<DetailReportIncome />} />
           {/* opname */}
           <Route path="/opname" element={<ListReport />} />
           <Route path="/detail-opname/:start/:end" element={<DetailReport />} />
