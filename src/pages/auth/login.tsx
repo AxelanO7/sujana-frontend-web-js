@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import swal from "sweetalert2";
 import { getBaseUrl } from "../../helpers/api";
-import { Button } from "@/shadcn/components/ui/button";
+import { Button } from "@nextui-org/button";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -84,11 +84,11 @@ const Login = () => {
               />
               <p className="ml-2">Ingatkan Saya</p>
             </div> */}
-            <Button size={"sm"} variant={"outline"} onClick={handleRegister}>
+            <Button onClick={handleRegister} variant="faded">
               Daftar
             </Button>
             <div className="w-4" />
-            <Button onClick={handleLogin} variant={"outline"} size={"sm"}>
+            <Button onClick={handleLogin} variant="faded">
               Masuk
             </Button>
           </div>
