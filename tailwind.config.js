@@ -5,6 +5,7 @@ export const content = [
   "./components/**/*.{ts,tsx}",
   "./app/**/*.{ts,tsx}",
   "./src/**/*.{html,js,ts,jsx,tsx}",
+  "./node_modules/@nextui-org/theme/dist/components/button.js",
 ];
 export const prefix = "";
 export const theme = {
@@ -39,6 +40,7 @@ export const theme = {
     },
   },
 };
+import { nextui } from "@nextui-org/theme";
 import tailwindcssAnimate from "tailwindcss-animate";
 
-export const plugins = [tailwindcssAnimate];
+export const plugins = [tailwindcssAnimate, nextui()];
